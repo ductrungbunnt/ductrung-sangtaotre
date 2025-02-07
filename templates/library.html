@@ -103,7 +103,7 @@
     <script>
         async function fetchDocuments() {
             try {
-                const response = await fetch("https://sangtaotre25.onrender.com/forum/posts");
+                const response = await fetch("/forum/posts");
                 const data = await response.json();
 
                 const documentList = document.getElementById("document-list");

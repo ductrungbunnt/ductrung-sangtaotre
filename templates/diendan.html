@@ -270,7 +270,7 @@ button {
 <script>
     async function fetchPosts() {
         try {
-            const response = await fetch("https://sangtaotre25.onrender.com/forum/posts");
+            const response = await fetch("/forum/posts");
             if (!response.ok) throw new Error("Lỗi khi lấy bài viết");
             const posts = await response.json();
             displayPosts(posts);
@@ -337,7 +337,7 @@ function handleCommentKeypress(event, postId) {
 
     async function likePost(postId) {
         try {
-            const response = await fetch(`https://sangtaotre25.onrender.com/forum/posts/${postId}/like`, {
+            const response = await fetch(`/forum/posts/${postId}/like`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" }
             });
@@ -353,7 +353,7 @@ function handleCommentKeypress(event, postId) {
 
     async function fetchComments(postId) {
         try {
-            const response = await fetch(`https://sangtaotre25.onrender.com/forum/comments/${postId}`);
+            const response = await fetch(`/forum/comments/${postId}`);
             if (!response.ok) throw new Error("Lỗi khi lấy bình luận");
             const comments = await response.json();
             displayComments(postId, comments);
@@ -375,7 +375,7 @@ function handleCommentKeypress(event, postId) {
         const commentText = document.getElementById(`comment-input-${postId}`).value;
         if (!commentText) return alert("Vui lòng nhập nội dung bình luận!");
 
-        await fetch(`https://sangtaotre25.onrender.com/forum/comments`, {
+        await fetch(`/forum/comments`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ post_id: postId, author: "ductrungbunnt", content: commentText })
@@ -389,7 +389,7 @@ function handleCommentKeypress(event, postId) {
         const content = document.getElementById("post-content").value;
         if (!title || !content) return alert("Nhập đầy đủ tiêu đề và nội dung!");
 
-        await fetch("https://sangtaotre25.onrender.com/forum/posts", {
+        await fetch("/forum/posts", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ title, content, author: "admin", category: "general" })

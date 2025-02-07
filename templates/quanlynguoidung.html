@@ -58,7 +58,7 @@
             }
 
             try {
-                const response = await fetch("https://sangtaotre25.onrender.com/auth/users", {
+                const response = await fetch("/auth/users", {
                     headers: { "Authorization": `Bearer ${token}` }
                 });
 
@@ -99,7 +99,7 @@
             }
 
             try {
-                const response = await fetch("https://sangtaotre25.onrender.com/auth/change-role", {
+                const response = await fetch("/auth/change-role", {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",

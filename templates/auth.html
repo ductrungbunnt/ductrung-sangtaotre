@@ -131,8 +131,8 @@
             }
 
             const url = isLogin 
-                ? "https://sangtaotre25.onrender.com/auth/login" 
-                : "https://sangtaotre25.onrender.com/auth/register";
+                ? "/auth/login" 
+                : "/auth/register";
             const payload = isLogin 
                 ? { email, password } 
                 : { username, email, password };
