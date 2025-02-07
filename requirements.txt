@@ -3,4 +3,5 @@ Flask-Cors
 Flask-JWT-Extended
 python-dotenv
 pymongo
+pytesseract
 bcrypt
