@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minigame Nối Từ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #007bff;
+        }
+        #game-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        input {
+            padding: 10px;
+            width: 80%;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #word-list {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .error {
+            color: red;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Minigame Nối Từ</h1>
+    <p id="closed-message" class="error hidden">
+        Hẹn gặp bạn vào ngày sau nhé, hôm nay minigame không mở mất rồi.
+    </p>
+
+    <div id="game-container" class="hidden">
+        <p><strong>Bắt đầu với từ:</strong> <span id="current-word">hoa</span></p>
+        <input type="text" id="user-input" placeholder="Nhập từ nối...">
+        <button onclick="playGame()">Gửi</button>
+        <p id="message" class="error"></p>
+        <div id="word-list"></div>
+    </div>
+
+    <script>
+        const openDays = [3,4,5,66]; // Các ngày mở game (0 = Chủ Nhật, 1 = Thứ Hai, ..., 6 = Thứ Bảy)
+        const today = new Date().getDay();
+        const gameContainer = document.getElementById("game-container");
+        const closedMessage = document.getElementById("closed-message");
+
+        if (openDays.includes(today)) {
+            gameContainer.classList.remove("hidden");
+        } else {
+            closedMessage.classList.remove("hidden");
+        }
+
+        let wordBank = [
+            "bánh mì", "cây xanh", "nước lọc", "học tập", "yêu thương", "đèn pin", "mèo con", "chạy bộ", "trái tim", "mưa rào",
+            "xe máy", "đường phố", "bút bi", "sách vở", "cá vàng", "hoa hồng", "màu sắc", "gió lạnh", "bầu trời", "bức tường", "quạt máy",
+            "giày thể thao", "chó cỏ", "nhà cửa", "biển cả", "núi rừng", "nhạc cụ", "chợ búa", "bàn ghế", "đèn lồng", "đá quý",
+            "vàng bạc", "bạc hà", "công viên", "trường học", "thầy cô", "học sinh", "bạn bè", "gia đình", "mẹ hiền", "bố mẹ",
+            "anh chị", "em út", "con cái", "ông bà", "trái đất", "mặt trăng", "ngôi sao", "tình yêu", "cảm xúc", "vui vẻ",
+            "buồn bã", "tức giận", "hạnh phúc", "thức ăn", "cơm trắng", "bún bò", "phở gà", "hủ tiếu", "nước cam", "cà phê",
+            "trà xanh", "sữa tươi", "bánh ngọt", "kẹo dẻo", "đậu phộng", "thịt heo", "cá chép", "chim sẻ", "lá chuối", "đồi núi",
+            "sông suối", "cầu treo", "chanh dây", "dưa hấu", "đào tiên", "mít thái", "nhãn lồng", "quýt ngọt", "táo tàu", "lê trắng"
+        ];
+
+        let currentWord = "hoa";
+        let usedWords = ["hoa"];
+
+        function playGame() {
+            let inputField = document.getElementById("user-input");
+            let userWord = inputField.value.trim().toLowerCase();
+            let message = document.getElementById("message");
+            let wordList = document.getElementById("word-list");
+
+            if (!userWord) {
+                message.textContent = "Vui lòng nhập một từ!";
+                return;
+            }
+
+            if (!wordBank.includes(userWord)) {
+                message.textContent = "Từ này không có trong danh sách!";
+                return;
+            }
+
+            if (usedWords.includes(userWord)) {
+                message.textContent = "Từ này đã được sử dụng!";
+                return;
+            }
+
+            let lastChar = currentWord.slice(-1);
+            let firstChar = userWord.charAt(0);
+
+            if (lastChar !== firstChar) {
+                message.textContent = "Sai! Từ mới phải bắt đầu bằng chữ cái cuối của từ trước đó.";
+                return;
+            }
+
+            usedWords.push(userWord);
+            currentWord = userWord;
+            document.getElementById("current-word").textContent = currentWord;
+
+            let newWord = document.createElement("p");
+            newWord.textContent = userWord;
+            wordList.appendChild(newWord);
+
+            message.textContent = "";
+            inputField.value = "";
+        }
+    </script>
+</body>
+</html>

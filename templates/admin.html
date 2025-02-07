@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+        }
+        .menu {
+            margin-top: 20px;
+        }
+        .menu button {
+            padding: 12px 20px;
+            margin: 10px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            color: white;
+            transition: 0.3s;
+        }
+        .btn-dethi { background-color: #007bff; }
+        .btn-dethi:hover { background-color: #0056b3; }
+        .btn-forum { background-color: #28a745; }
+        .btn-forum:hover { background-color: #218838; }
+        .btn-users { background-color: #dc3545; }
+        .btn-users:hover { background-color: #c82333; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <p>Chọn một trang để quản lý:</p>
+        
+        <div class="menu">
+            <button class="btn-dethi" onclick="navigateTo('/dethi')">📚 Quản lý Đề Thi</button>
+            <button class="btn-forum" onclick="navigateTo('/qldiendan')">💬 Quản lý Diễn Đàn</button>
+            <button class="btn-users" onclick="navigateTo('/qlnguoidung')">👥 Quản lý Người Dùng</button>
+        </div>
+    </div>
+
+    <script>
+        // Kiểm tra token khi tải trang
+        document.addEventListener("DOMContentLoaded", function () {
+            const token = localStorage.getItem("token"); // Lấy token từ localStorage
+            console.log("Token khi tải trang:", token);
+
+            if (!token) {
+                alert("Bạn cần đăng nhập để truy cập trang Admin.");
+                window.location.href = "/login"; // Chuyển hướng về trang đăng nhập
+            }
+        });
+
+        // Chuyển trang nhưng phải kiểm tra token trước
+        function navigateTo(page) {
+            const token = localStorage.getItem("token");
+            console.log(`Token trước khi chuyển đến ${page}:`, token);
+
+            if (!token) {
+                alert("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại.");
+                window.location.href = "/login";
+                return;
+            }
+            window.location.href = page;
+        }
+    </script>
+
+</body>
+</html>
