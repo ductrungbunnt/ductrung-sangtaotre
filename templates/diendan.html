@@ -392,7 +392,7 @@ function handleCommentKeypress(event, postId) {
         await fetch("/forum/posts", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ title, content, author: "admin", category: "general" })
+            body: JSON.stringify({ title, content, author: "hocvien2", category: "general" })
         });
 
         fetchPosts();
