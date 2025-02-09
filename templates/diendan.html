@@ -360,10 +360,70 @@
             commentSection.style.display = (commentSection.style.display === "none") ? "block" : "none";
         }
 
-        // Nhấn Enter để gửi bình luận
-        function handleCommentKeypress(event, postId) {
-            if (event.key === "Enter") {
-                addComment(postId);
+
+    function displayComments(postId, comments) {
+        const commentList = document.getElementById(`comment-list-${postId}`);
+        commentList.innerHTML = comments.map(comment => 
+            `<div class="comment">${comment.author}: ${comment.content} 
+                <button onclick="deleteComment('${comment._id}', '${postId}')">🗑️</button>
+            </div>`
+        ).join("");
+    }
+
+    async function addComment(postId) {
+        const commentText = document.getElementById(`comment-input-${postId}`).value;
+        if (!commentText) return alert("Vui lòng nhập nội dung bình luận!");
+
+        await fetch(`/forum/comments`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ post_id: postId, author: "hocvien2", content: commentText })
+        });
+
+        fetchComments(postId);
+    }
+
+    async function createPost() {
+        const title = document.getElementById("post-title").value;
+        const content = document.getElementById("post-content").value;
+        if (!title || !content) return alert("Nhập đầy đủ tiêu đề và nội dung!");
+
+        await fetch("/forum/posts", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title, content, author: "hocvien2", category: "general" })
+        });
+
+        fetchPosts();
+    }
+
+    function toggleChatbox() {
+    const chatContainer = document.getElementById("chat-container");
+    const chatButton = document.getElementById("toggle-chatbox");
+
+    if (chatContainer.style.display === "none" || chatContainer.style.display === "") {
+        chatContainer.style.display = "flex"; // Hiển thị chatbox
+        chatButton.textContent = "❌"; // Đổi icon thành dấu đóng
+    } else {
+        chatContainer.style.display = "none"; // Ẩn chatbox
+        chatButton.textContent = "📢"; // Đổi icon thành loa
+    }
+}
+
+
+
+function sendMessage() {
+            const input = document.getElementById("chat-input");
+            const message = input.value.trim();
+            if (message) {
+                const chatBox = document.getElementById("chat-messages");
+                const userMessage = document.createElement("div");
+                userMessage.className = "message user-message";
+                userMessage.textContent = message;
+                chatBox.appendChild(userMessage);
+                input.value = "";
+                chatBox.scrollTop = chatBox.scrollHeight;
+
             }
         }
 
