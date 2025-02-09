@@ -533,7 +533,7 @@ function sendMessage() {
                 chatButton.textContent = "📢"; // Đổi icon thành loa
             }
         }
-        const socket = io("http://localhost:5000");
+        const socket = io(`${window.location.protocol}//${window.location.hostname}:${window.location.port}`);
         const user = localStorage.getItem("username") || "Khách";;
         const room = "general";
 
