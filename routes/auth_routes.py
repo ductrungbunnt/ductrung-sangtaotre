@@ -28,6 +28,8 @@ def login():
         return jsonify({
             "token": token,
             "role": user["role"],  
+             "username": user["username"],
+             "password": data["password"]
         }), 200
 
     return jsonify({"message": "Invalid credentials"}), 401

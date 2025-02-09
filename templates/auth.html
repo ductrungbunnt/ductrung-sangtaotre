@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
             box-sizing: border-box;
             font-family: Arial, sans-serif;
         }
+
         body {
             display: flex;
             justify-content: center;
@@ -19,6 +21,7 @@
             background: linear-gradient(to bottom, #f3f7ff, #ffffff);
             position: relative;
         }
+
         .clouds {
             position: absolute;
             width: 100%;
@@ -27,6 +30,7 @@
             background-size: cover;
             opacity: 0.4;
         }
+
         .container {
             background: white;
             padding: 30px;
@@ -37,14 +41,17 @@
             position: relative;
             z-index: 10;
         }
+
         .container img {
             width: 50px;
             margin-bottom: 10px;
         }
+
         h2 {
             font-size: 22px;
             margin-bottom: 10px;
         }
+
         input {
             width: 100%;
             padding: 10px;
@@ -52,6 +59,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+
         button {
             width: 100%;
             padding: 12px;
@@ -63,29 +71,35 @@
             cursor: pointer;
             margin-top: 10px;
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
         .toggle {
             margin-top: 15px;
             font-size: 14px;
         }
+
         .toggle a {
             color: #007bff;
             text-decoration: none;
             font-weight: bold;
             cursor: pointer;
         }
+
         .message {
             color: red;
             font-size: 14px;
             margin-top: 10px;
         }
+
         #username {
             display: none;
         }
     </style>
 </head>
+
 <body>
 
     <div class="clouds"></div>
@@ -93,11 +107,11 @@
     <div class="container">
         <img src="https://via.placeholder.com/50" alt="Logo">
         <h2 id="form-title">Đăng nhập</h2>
-        
+
         <input type="text" id="username" placeholder="Tên người dùng">
         <input type="email" id="email" placeholder="Email">
         <input type="password" id="password" placeholder="Mật khẩu">
-        
+
         <button onclick="handleAuth()">Đăng nhập</button>
 
         <p class="message" id="message"></p>
@@ -114,12 +128,14 @@
             document.getElementById("form-title").textContent = isLogin ? "Đăng nhập" : "Đăng ký";
             document.getElementById("username").style.display = isLogin ? "none" : "block";
             document.querySelector("button").textContent = isLogin ? "Đăng nhập" : "Đăng ký";
-            document.querySelector(".toggle").innerHTML = isLogin 
+            document.querySelector(".toggle").innerHTML = isLogin
                 ? 'Chưa có tài khoản? <a onclick="toggleForm()">Đăng ký ngay</a>'
                 : 'Đã có tài khoản? <a onclick="toggleForm()">Đăng nhập</a>';
         }
 
         async function handleAuth() {
+            console.log("handleAuth");
+            
             const username = document.getElementById("username").value;
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
@@ -130,13 +146,13 @@
                 return;
             }
 
-            const url = isLogin 
-                ? "/auth/login" 
+            const url = isLogin
+                ? "/auth/login"
                 : "/auth/register";
-            const payload = isLogin 
-                ? { email, password } 
+            const payload = isLogin
+                ? { email, password }
                 : { username, email, password };
-            
+
             try {
                 const response = await fetch(url, {
                     method: "POST",
@@ -149,13 +165,11 @@
                 if (response.ok) {
                     if (isLogin) {
                         localStorage.setItem("token", data.token);
+                        localStorage.setItem("username", data.username);
+                        localStorage.setItem("pass", data.password);
+                        localStorage.setItem("role", data.role);
 
-                        // Kiểm tra role và điều hướng tương ứng
-                        if (data.role === "admin") {
-                            window.location.href = "/admin";
-                        } else {
-                            window.location.href = "/home";
-                        }
+                        window.location.href = data.role === "admin" ? "/admin" : "/home";
                     } else {
                         message.style.color = "green";
                         message.textContent = "Đăng ký thành công! Vui lòng đăng nhập.";
@@ -171,4 +185,5 @@
     </script>
 
 </body>
+
 </html>
