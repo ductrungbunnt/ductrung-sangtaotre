@@ -18,7 +18,7 @@ app.config["JWT_SECRET_KEY"] = config.SECRET_KEY
 jwt = JWTManager(app)
 
 CORS(app)
-socketio = SocketIO(app, async_mode="eventlet", cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins="*")
 mongo = PyMongo()
 app.config["MONGO_CLIENT"] = mongo
 app.register_blueprint(auth_bp)
@@ -111,10 +111,7 @@ def chatbot():
 def lienhe():
     return render_template("lienhe.html")
 import os
-import eventlet
-import eventlet.wsgi
 
-eventlet.monkey_patch()
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     socketio.run(app, host="0.0.0.0", port=port)
